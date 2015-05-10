@@ -17,7 +17,7 @@ public class VideoController : MonoBehaviour {
 		if (!movie.isPlaying) {
 			movie.Stop();
 			Debug.Log("Movie done. Switch scene.");
-			//Application.LoadLevel("DemoScene");
+			Application.LoadLevel("RTC");
 		}
 	}
 }

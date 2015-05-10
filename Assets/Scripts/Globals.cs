@@ -8,8 +8,24 @@ public class Globals : MonoBehaviour {
 	public static ArrayList memories;
 	public static int convoNumber;
 	public static int convoStage;
+	private static int oldNumber;
+	private static int oldStage;
 
-	public static int conv10Angry;
+	public static string girlResp;
+
+	public static bool conv10Angry;
+
+	public void resetConvo () {
+		convoNumber = oldNumber;
+		convoStage = oldStage;
+	}
+
+	public void updateConvo (int number, int stage) {
+		oldNumber = convoNumber;
+		oldStage = convoStage;
+		convoNumber = number;
+		convoStage = stage;
+	}
 
 	public void updateAnger (int change) {
 		anger = anger + change;
@@ -19,6 +35,15 @@ public class Globals : MonoBehaviour {
 			anger = 10;
 		}
 		Debug.LogFormat ("Anger: {0}", anger);
+	}
+	
+	public void updateGirlResp (string resp) {
+		girlResp = resp;
+		Debug.LogFormat ("Girl: {0}", resp);
+	}
+	
+	public string getGirlResp () {
+		return girlResp;
 	}
 
 	void Awake () {
@@ -32,9 +57,9 @@ public class Globals : MonoBehaviour {
 		convoNumber = 0;
 		convoStage = 0;
 
-		conv10Angry = 0;
+		girlResp = "";
 
-		Debug.Log ("Awake was called in global");
+		conv10Angry = false;
 	}
 
 	// Use this for initialization

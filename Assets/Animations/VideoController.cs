@@ -16,7 +16,6 @@ public class VideoController : MonoBehaviour {
 		MovieTexture movie = (MovieTexture)rend.material.mainTexture;
 		if (!movie.isPlaying) {
 			movie.Stop();
-			Debug.Log("Movie done. Switch scene.");
 			Application.LoadLevel("RTC");
 		}
 	}

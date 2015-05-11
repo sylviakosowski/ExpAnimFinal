@@ -30,7 +30,6 @@ public class Response : MonoBehaviour {
 		rects.Add (new Rect (cX - (3 * dX), cY + (2 * dY), 1 * dX, 1 * dY)); // Where you will click to continue
 
 		Texture background;
-		Debug.LogFormat ("Anger: {0}", Globals.anger);
 		if (Globals.anger >= 9) {
 			background = (Texture)Resources.Load ("girl_Anger", typeof(Texture));
 		} else if (Globals.anger >= 7) {
@@ -57,8 +56,8 @@ public class Response : MonoBehaviour {
 		GUI.skin.box.wordWrap = true;
 		GUI.skin.box.alignment = TextAnchor.MiddleCenter;
 
-		GUI.skin.box.fontSize = 32;
-		GUI.skin.button.fontSize = 24;
+		GUI.skin.box.fontSize = 58;
+		GUI.skin.button.fontSize = 42;
 
 		GUI.Box ((Rect)rects [0], resp);
 		if (GUI.Button ((Rect)rects [1], "[Continue]")) {
@@ -74,11 +73,6 @@ public class Response : MonoBehaviour {
 			string ret = Globals.girlRet;
 			Globals.girlRet = "RTC";
 			Application.LoadLevel (ret);
-			/*if (!ret.Equals("RTC")) { // TODO: REMOVE THIS CRAP WHEN YOU ACTUALLY HAVE THE MEMORIES
-				Application.LoadLevel ("opening");
-			} else {
-				Application.LoadLevel ("RTC");
-			}*/
 		}
 	}
 

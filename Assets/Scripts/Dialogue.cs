@@ -113,6 +113,26 @@ public class Dialogue : MonoBehaviour {
 
 	}
 
+
+	/// <summary>
+	/// Ending the animation.
+	/// </summary>
+	void ending () {
+		Globals.memRet = "credits";
+		if (Globals.anger >= 9) {
+			Application.LoadLevel ("AngryEnding");
+		} else if (Globals.anger >= 7) {
+			Application.LoadLevel ("BitterEnding");
+		} else if (Globals.anger >= 4) {
+			Application.LoadLevel ("NeutralEnding");
+		} else if (Globals.anger >= 2) {
+			Application.LoadLevel ("OptimisticEnding");
+		} else {
+			Application.LoadLevel ("HappyEnding");
+		}
+	}
+
+
 	/// <summary>
 	/// Hybrid transition functions for when you don't want to return to the RTC between animations/girl responses.
 	/// </summary>
@@ -248,6 +268,7 @@ public class Dialogue : MonoBehaviour {
 			} 
 			if (GUI.Button ((Rect)rects[3], "...Okay. Frankly, I’m relieved. ")) {
 				// End
+				ending ();
 			}
 		} else if (convStage == 1) {
 			if (GUI.Button ((Rect)rects[0], "Isn’t it enough that I showed my support by being there? ")) {
@@ -274,6 +295,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects[2], "Maybe...you’re right. I’m too exhausted to give you the marriage you deserve. ")) {
 				// End
+				ending ();
 			} 
 		}
 	}
@@ -318,6 +340,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects[3], "You know... I think you might be right. Maybe this is for the best.")) {
 				// End
+				ending ();
 			}
 		}
 	}
@@ -350,6 +373,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects[2], "This is my dream. You once understood that. But if you can't anymore, maybe it's time we parted")) {
 				// End
+				ending ();
 			}
 		}
 	}
@@ -383,6 +407,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [2], "You no longer care about having me in your life. I'll sign.")) {
 				// End
+				ending ();
 			}
 		} 
 	}
@@ -411,13 +436,14 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [2], "We’re like strangers, and I just didn’t see it until now. I’ll sign.")) {
 				// End
+				ending ();
 			}
 		}
 	}
 
 	void RTC7 () {
 		if (convStage == 0) {
-			if (GUI.Button ((Rect)rects [0], "I didn’t know you were so affected by that. I’m sorry.")) {
+			if (GUI.Button ((Rect)rects [0], "I didn’t mean to be dismissive, I was swamped at work. I’m sorry I didn't write more.")) {
 				Globals.convoStage = 1;
 				globScr.updateAnger (-1);
 				girlTalk ("I just need more support from you, and I'm not getting it.");
@@ -429,9 +455,10 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [2], "I do care, but I see now that I can’t offer you the support you need. Maybe it’s for the best that we part.")) {
 				// End
+				ending ();
 			}
 		} else if (convStage == 1) {
-			if (GUI.Button ((Rect)rects [0], "But I’ve tried to give you support, you just haven’t noticed it.")) {
+			if (GUI.Button ((Rect)rects [0], "I’ve tried to give you support, you just haven’t noticed it.")) {
 				if(memVisited (1) ){
 					// Angry
 					angryResponse ();
@@ -466,21 +493,22 @@ public class Dialogue : MonoBehaviour {
 				}
 			}
 			if (GUI.Button ((Rect)rects [2], "I do care, but I see now that I can’t offer you the support you need. Maybe it’s for the best that we part.")) {
-				//End
+				// End
+				ending ();
 			}
 		}
 	}
 
 	void RTC8 () {
 		if (convStage == 0) {
-			if (GUI.Button ((Rect)rects [0], "That's not true, I do care!")) {
+			if (GUI.Button ((Rect)rects [0], "That's not true, I do care! I was so busy that I didn't have time to properly respond.")) {
 				if(memVisited (3) ){
 					// Angry
 					angryResponse ();
 				} else {
 					Globals.convoNumber = 9;
 					globScr.updateAnger (-1);
-					girlTalk ("This wasn’t the first time you didn’t make space for me in your life. You always choose your coworkers at the restaurant over me.");
+					girlTalk ("This wasn’t the first time you didn’t make space for me in your life. You always choose your coworkers or the restaurant over me.");
 				}
 			}
 			if (GUI.Button ((Rect)rects [1], "I was busy at the restaurant! Or have you forgotten about that? It used to be important to you too.")) {
@@ -490,11 +518,12 @@ public class Dialogue : MonoBehaviour {
 				} else {
 					Globals.convoNumber = 9;
 					globScr.updateAnger (1);
-					girlTalk ("This wasn’t the first time you didn’t make space for me in your life. You always choose your coworkers at the restaurant over me.");
+					girlTalk ("This wasn’t the first time you didn’t make space for me in your life. You always choose your coworkers or the restaurant over me.");
 				}
 			}
 			if (GUI.Button ((Rect)rects [2], "I do care, you just refuse to see that. Maybe we should separate.")) {
 				// End
+				ending ();
 			}
 		} 
 	}
@@ -525,6 +554,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [2], "I need to maintain some sort of independence. And if that bothers you so much, maybe we’d be better off apart.")) {
 				// End
+				ending ();
 			}
 		} else if (convStage == 1) {
 			if (GUI.Button ((Rect)rects [0], "Why do you think that?")) {
@@ -546,6 +576,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [2], "Maybe you’re right. Maybe I need some space.")) {
 				// End
+				ending ();
 			}
 		}
 	}
@@ -558,6 +589,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [2], "I guess not. I guess nothing can save it.")) {
 				// End
+				ending ();
 			}
 		} else if (convStage == 1) {
 			if (!memVisited (9)) {
@@ -574,6 +606,7 @@ public class Dialogue : MonoBehaviour {
 				}
 				if (GUI.Button ((Rect)rects [2], "I guess not. I guess nothing can save it.")) {
 					// End
+					ending ();
 				}
 			} else {
 				if (GUI.Button ((Rect)rects [1], "... I don't know.")) {
@@ -583,6 +616,7 @@ public class Dialogue : MonoBehaviour {
 				}
 				if (GUI.Button ((Rect)rects [2], "I guess not. I guess nothing can save it.")) {
 					// End
+					ending ();
 				}
 			}
 		} else if (convStage == 2) {
@@ -593,6 +627,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [2], "I guess not. I guess nothing can save it.")) {
 				// End
+				ending ();
 			}
 		}
 	}
@@ -627,6 +662,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [2], "It’s never going to be enough, is it? I quit.")) {
 				// End
+				ending ();
 			}
 		} 
 	}
@@ -639,6 +675,7 @@ public class Dialogue : MonoBehaviour {
 			} 
 			if (GUI.Button ((Rect)rects [2], "You know what, I hope you find someone who will make you happy. It's obviously not me.")) {
 				// End
+				ending ();
 			}
 		} 
 	}
@@ -669,6 +706,7 @@ public class Dialogue : MonoBehaviour {
 			} 
 			if (GUI.Button ((Rect)rects [2], "I can’t believe you don’t trust me. I want out.")) {
 				// End
+				ending ();
 			}
 		} else if (convStage == 1) {
 			if (GUI.Button ((Rect)rects [0], "I didn’t hire her to replace you.")) {
@@ -696,6 +734,7 @@ public class Dialogue : MonoBehaviour {
 			} 
 			if (GUI.Button ((Rect)rects [2], "I can’t believe you don’t trust me. I want out.")) {
 				// End
+				ending ();
 			}
 		} else if (convStage == 2) {
 			if (GUI.Button ((Rect)rects [0], "I don’t know what you mean.")) {
@@ -723,6 +762,7 @@ public class Dialogue : MonoBehaviour {
 			} 
 			if (GUI.Button ((Rect)rects [2], "I can’t believe you don’t trust me. I want out.")) {
 				// End
+				ending ();
 			}
 		} else if (convStage == 3) {
 			if (GUI.Button ((Rect)rects [1], "...You’re right. I did hire her to replace you.")) {
@@ -745,6 +785,7 @@ public class Dialogue : MonoBehaviour {
 			} 
 			if (GUI.Button ((Rect)rects [2], "I can’t believe you don’t trust me. I want out.")) {
 				// End
+				ending ();
 			}
 		}
 	}
@@ -784,6 +825,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [2], "It’s been a long time since you told me anything about your life. You’re right, I hardly know you anymore,  I’ll sign the papers.")) {
 				// End
+				ending ();
 			}
 		}
 	}
@@ -823,6 +865,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [3], "You want to be so independent? Fine. We're through.")) {
 				// End
+				ending ();
 			}
 		}
 	}
@@ -861,6 +904,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [2], "You’re right, I hardly know you anymore,  I’ll sign the papers.")) {
 				// End
+				ending ();
 			}
 		} 
 	}
@@ -874,6 +918,7 @@ public class Dialogue : MonoBehaviour {
 			}
 			if (GUI.Button ((Rect)rects [2], "I want to make this work, but this is a two way street. If that's your attitude I think this is for the best.")) {
 				// End
+				ending ();
 			}
 		}
 	}
@@ -881,7 +926,7 @@ public class Dialogue : MonoBehaviour {
 	void OnGUI () {
 		// Start defining the style.
 		GUI.skin.button.wordWrap = true;
-		GUI.skin.button.fontSize = 26;
+		GUI.skin.button.fontSize = 46;
 
 		GUI.backgroundColor = Color.clear;
 

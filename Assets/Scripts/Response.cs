@@ -34,7 +34,23 @@ public class Response : MonoBehaviour {
 		GUI.skin.box.wordWrap = true;
 		GUI.Box ((Rect)rects [0], resp);
 		if (GUI.Button ((Rect)rects [1], "[Continue]")) {
-			Application.LoadLevel ("RTC");
+			// Update the girl's response to be the new one. Clear the second one just in case.
+			// This is use for when the girl talks, then memory, then girl talks again.
+
+			//globScr.updateGirlResp2(globScr.getGirlResp2(), "");
+			globScr.updateGirlResp2(globScr.getGirlResp2(), globScr.getGirlResp2());
+
+			// We want to consume the return spot put in here and reset it to be the normal conversation so that we don't forget to reset it.
+			// This actually easily allows us to go from girl to memory to girl, since after we visit the girl we will go to the memory, but
+			// by going to the memory we clear out the return point so we automatically return to the RTC scene.
+			string ret = Globals.girlRet;
+			Globals.girlRet = "RTC";
+			if (!ret.Equals("RTC")) { // TODO: REMOVE THIS CRAP WHEN YOU ACTUALLY HAVE THE MEMORIES
+				//Application.LoadLevel (ret);
+				Application.LoadLevel ("opening");
+			} else {
+				Application.LoadLevel ("RTC");
+			}
 		}
 	}
 

@@ -12,6 +12,10 @@ public class Globals : MonoBehaviour {
 	private static int oldStage;
 
 	public static string girlResp;
+	public static string girlResp2; // Needed for when the girl talks, we have a memory, and then the girl talks again.
+
+	public static string girlRet;
+	public static string memRet;
 
 	public static bool conv10Angry;
 
@@ -34,16 +38,25 @@ public class Globals : MonoBehaviour {
 		} else if (anger > 10) {
 			anger = 10;
 		}
-		Debug.LogFormat ("Anger: {0}", anger);
+		//Debug.LogFormat ("Anger: {0}", anger);
 	}
 	
 	public void updateGirlResp (string resp) {
 		girlResp = resp;
 		Debug.LogFormat ("Girl: {0}", resp);
 	}
+
+	public void updateGirlResp2 (string resp1, string resp2) {
+		girlResp = resp1;
+		girlResp2 = resp2;
+	}
 	
 	public string getGirlResp () {
 		return girlResp;
+	}
+
+	public string getGirlResp2 () {
+		return girlResp2;
 	}
 
 	void Awake () {
@@ -58,6 +71,9 @@ public class Globals : MonoBehaviour {
 		convoStage = 0;
 
 		girlResp = "";
+
+		girlRet = "RTC";
+		memRet = "RTC";
 
 		conv10Angry = false;
 	}

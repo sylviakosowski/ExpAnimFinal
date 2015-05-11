@@ -16,7 +16,9 @@ public class VideoController : MonoBehaviour {
 		MovieTexture movie = (MovieTexture)rend.material.mainTexture;
 		if (!movie.isPlaying) {
 			movie.Stop();
-			Application.LoadLevel("RTC");
+			string ret = Globals.memRet; // Consume the return location so that it returns to default behavior, just incase.
+			Globals.memRet = "RTC";
+			Application.LoadLevel(ret);
 		}
 	}
 }

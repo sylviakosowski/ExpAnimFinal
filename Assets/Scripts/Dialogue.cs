@@ -14,6 +14,9 @@ public class Dialogue : MonoBehaviour {
 	private int cY;
 
 	private ArrayList rects;
+	private ArrayList lowAnger;
+	private ArrayList medAnger;
+	private ArrayList highAnger;
 
 	/// <summary>
 	/// ACTUALLY IMPLEMENT A STYLE
@@ -38,6 +41,31 @@ public class Dialogue : MonoBehaviour {
 		rects.Add (new Rect (cX - 150, cY + 130, 300, 60));
 		rects.Add (new Rect (cX - 150, cY + 190, 300, 60));
 
+		lowAnger = new ArrayList ();
+		lowAnger.Add ("We’ve already discussed this.");
+		lowAnger.Add ("Why are you bringing that up again?");
+		lowAnger.Add ("I don’t see why you keep bringing that up.");
+		lowAnger.Add ("I don’t want to hurt you but if you don’t have anything new to say please just sign the papers.");
+		lowAnger.Add ("Please stop bringing that up and sign the papers.");
+
+		medAnger = new ArrayList ();
+		medAnger.Add ("I need you to let go of this marriage");
+		medAnger.Add ("I’m too tired to discuss this again.");
+		medAnger.Add ("You’re like a broken record");
+		medAnger.Add ("You’re making me exhausted, looping back on yourself all the time");
+		medAnger.Add ("Just sign the papers.");
+		medAnger.Add ("You’re being immature. Sign the papers.");
+		medAnger.Add ("You just don’t know when to give up do you.");
+		medAnger.Add ("You’re just in denial at this point.");
+		medAnger.Add ("Please just accept what is happening and sign.");
+
+		highAnger = new ArrayList ();
+		highAnger.Add ("Goddamnit, if you have no new point to make just sign the papers.");
+		highAnger.Add ("I’ll wait here all day if I have to, but goddamnit I’m not leaving until you sign.");
+		highAnger.Add ("Do I have to hold your hand and make you sign?");
+		highAnger.Add ("Jesus Christ");
+		highAnger.Add ("Just sign the fucking papers");
+
 		Debug.LogFormat ("Conversation: {0}", convNum);
 	}
 
@@ -54,6 +82,26 @@ public class Dialogue : MonoBehaviour {
 		Application.LoadLevel ("GirlResp");
 		//Application.LoadLevel ("RTC");
 	}
+
+	void angryResponse () {
+		ArrayList curr;
+		if (Globals.anger <= 3) {
+			curr = lowAnger;
+		} else if (Globals.anger >= 7) {
+			curr = highAnger;
+		} else {
+			curr = medAnger;
+		}
+		girlTalk ((string)curr [Random.Range (0, curr.Capacity)]);
+
+	}
+
+	/// <summary>
+	/// Hybrid transition functions for when you don't want to return to the RTC between animations/girl responses.
+	/// </summary>
+	/// <param name="response">Response.</param>
+	/// <param name="n">N.</param>
+	/// <param name="memory">Memory.</param>
 
 	void girlThenMemory(string response, int n, string memory) {
 		globScr.updateGirlResp (response);
@@ -147,6 +195,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects[0], "If this is about my not supporting you, I really do. I’ve just been exhausted with work. ")) {
 				if(memVisited (10) ){
 					// Angry
+					angryResponse ();
 				} else {
 					// Go to memory 10, then back to the second half of this conversation. Normally we set the Globals in here, but we do it in
 					// memory 10 in this case since every entry to memory 10 will have us back here.
@@ -157,6 +206,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects[1], "Have you found someone else?")) {
 				if(memVisited (7) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoNumber = 12; // The Cheating one
 					globScr.updateAnger (1);
@@ -205,6 +255,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects[0], "But I still want to support you")) {
 				if(memVisited (9) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoNumber = 4;
 					globScr.updateAnger (-1);
@@ -214,6 +265,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects[1], "I thought I was the one bothering you…")) {
 				if(memVisited (9) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoNumber = 4; 
 					globScr.updateAnger (-1);
@@ -223,6 +275,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects[2], "You just don’t see how much I care for you.")) {
 				if(memVisited (1) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoNumber = 10;
 					globScr.updateAnger(-1);
@@ -248,6 +301,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects[0], "That's not true, you don't have time for me.")) {
 				if(memVisited (9) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoStage = 0;
 					Globals.convoNumber = 4;
@@ -258,6 +312,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects[1], "But that's exactly how I feel about you and the theater.")) {
 				if(memVisited (9) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoStage = 0;
 					Globals.convoNumber = 4; 
@@ -276,6 +331,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [0], "The only person you talk to about things now is him.")) {
 				if(memVisited (7) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoNumber = 6;
 					globScr.updateAnger (1);
@@ -285,6 +341,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [1], "You’re so busy that you never include me in your life.")) {
 				if(memVisited (8) ){
 					// Angry
+					angryResponse ();
 				} else {
 					globScr.updateAnger (1);
 					if (Globals.anger < Globals.angerThresh) {
@@ -307,6 +364,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [0], "Why don’t you feel like you can confide in me anymore? ")) {
 				if(memVisited (8) ){
 					// Angry
+					angryResponse ();
 				} else {
 					globScr.updateAnger (-1);
 					if (Globals.anger < Globals.angerThresh) {
@@ -348,6 +406,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [0], "But I’ve tried to give you support, you just haven’t noticed it.")) {
 				if(memVisited (1) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoStage = 0;
 					Globals.convoNumber = 10;
@@ -364,6 +423,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [1], "I do so much for you, but you refuse to notice")) {
 				if(memVisited (1) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoStage = 0;
 					Globals.convoNumber = 10;
@@ -388,6 +448,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [0], "That's not true, I do care!")) {
 				if(memVisited (3) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoNumber = 9;
 					globScr.updateAnger (-1);
@@ -397,6 +458,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [1], "I was busy at the restaurant! Or have you forgotten about that? It used to be important to you too.")) {
 				if(memVisited (3) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoNumber = 9;
 					globScr.updateAnger (1);
@@ -410,10 +472,12 @@ public class Dialogue : MonoBehaviour {
 	}
 
 	void RTC9 () { // Also RTC11
+		Globals.memories [2] = true; // The only way to get to conversation 9 is to have gone through memory 3, so even though it doesn't exist we record this.
 		if (convStage == 0) {
 			if (GUI.Button ((Rect)rects [0], "Well how do you think I felt when I wanted to surprise you?")) {
 				if(memVisited (1) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoNumber = 10;
 					globScr.updateAnger (-1);
@@ -444,6 +508,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [1], "Same could be said for you. You’ve found someone else, haven't you?")) {
 				if(memVisited (7) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoStage = 0;
 					Globals.convoNumber = 12;
@@ -509,6 +574,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [0], "Oh and I suppose you’re getting that support from someone else?")) {
 				if(memVisited (7) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoStage = 0;
 					Globals.convoNumber = 12;
@@ -519,6 +585,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [1], "But I do support you! I used to go to all your shows when you told me about them.")) {
 				if(memVisited (6) ){
 					// Angry
+					angryResponse ();
 				} else {
 					if(memVisited (10)) {
 						Globals.convoNumber = 2;
@@ -558,6 +625,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [1], "...You’re right. I did hire her to replace you.")) {
 				if(memVisited (4) ){
 					// Angry
+					angryResponse ();
 				} else {
 					globScr.updateAnger (-1);
 					if (Globals.anger < Globals.angerThresh) {
@@ -583,8 +651,10 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [1], "...You’re right. I did hire her to replace you.")) {
 				if(memVisited (4) ){
 					// Angry
+					angryResponse ();
 				} else {
 					globScr.updateAnger (-1);
+					Globals.convoStage = 0;
 					if (Globals.anger < Globals.angerThresh) {
 						Globals.convoNumber = 15;
 						globScr.updateAnger(-1);
@@ -608,8 +678,10 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [1], "...You’re right. I did hire her to replace you.")) {
 				if(memVisited (4) ){
 					// Angry
+					angryResponse ();
 				} else {
 					globScr.updateAnger (-1);
+					Globals.convoStage = 0;
 					if (Globals.anger < Globals.angerThresh) {
 						Globals.convoNumber = 15;
 						globScr.updateAnger(-1);
@@ -628,8 +700,10 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [0], "...You’re right. I did hire her to replace you.")) {
 				if(memVisited (4) ){
 					// Angry
+					angryResponse ();
 				} else {
 					globScr.updateAnger (-1);
+					Globals.convoStage = 0;
 					if (Globals.anger < Globals.angerThresh) {
 						Globals.convoNumber = 15;
 						globScr.updateAnger(-1);
@@ -663,6 +737,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [0], "If this is about me not supporting you, I really do. I've just been exhausted.")) {
 				if(memVisited (10) ){
 					// Angry
+					angryResponse ();
 				} else {
 					globScr.updateAnger (-1);
 					memory10 (); // Again, let memory 10 do the work.
@@ -671,6 +746,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [1], "It really hurts me that you never do.")) {
 				if(memVisited (9) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoStage = 0; 
 					Globals.convoNumber = 17;
@@ -689,6 +765,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [0], "It’s almost like you’re intentionally avoiding me.")) {
 				if(memVisited (9) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoStage = 0;
 					Globals.convoNumber = 4;
@@ -699,6 +776,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [1], "Maybe if you told me about your plans more we could work things out I hardly know what’s going on in your life anymore?")) {
 				if(memVisited (9) ){
 					// Angry
+					angryResponse ();
 				} else {
 					Globals.convoStage = 0; 
 					Globals.convoNumber = 4;
@@ -709,6 +787,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [2], "So what if I relax with my friends? I’ve been exhausted with managing the restaurant.")) {
 				if(memVisited (10) ){
 					// Angry
+					angryResponse ();
 				} else {
 					globScr.updateAnger (1);
 					memory10 (); // Again, we let memory10 handle the transitions here.
@@ -725,6 +804,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [0], "... When did you stop counting on me?")) {
 				if(memVisited (8) ){
 					// Angry
+					angryResponse ();
 				} else {
 					globScr.updateAnger(-1);
 					if (Globals.anger < Globals.angerThresh) {
@@ -739,6 +819,7 @@ public class Dialogue : MonoBehaviour {
 			if (GUI.Button ((Rect)rects [1], "I don't see why you're acting like this when I've supported you this entire time.")) {
 				if(memVisited (8) ){
 					// Angry
+					angryResponse ();
 				} else {
 					globScr.updateAnger (1);
 					if (Globals.anger < Globals.angerThresh) {

@@ -68,6 +68,20 @@ public class Dialogue : MonoBehaviour {
 		highAnger.Add ("Jesus Christ!");
 		highAnger.Add ("Just sign the fucking papers!");
 
+		Texture background;
+		if (Globals.anger >= 9) {
+			background = (Texture)Resources.Load ("guy_anger", typeof(Texture));
+		} else if (Globals.anger >= 7) {
+			background = (Texture)Resources.Load ("guy_bitter", typeof(Texture));
+		} else if (Globals.anger >= 4) {
+			background = (Texture)Resources.Load ("guy_neut", typeof(Texture));
+		} else if (Globals.anger >= 2) {
+			background = (Texture)Resources.Load ("guy_optimistic", typeof(Texture));
+		} else {
+			background = (Texture)Resources.Load ("guy_happy", typeof(Texture));
+		}
+		gameObject.GetComponent<Renderer>().material.mainTexture = background;
+
 		Debug.LogFormat ("Conversation: {0}", convNum);
 	}
 
@@ -82,7 +96,6 @@ public class Dialogue : MonoBehaviour {
 	void girlTalk (string response) { 
 		globScr.updateGirlResp (response);
 		Application.LoadLevel ("GirlResp");
-		//Application.LoadLevel ("RTC");
 	}
 
 	void angryResponse () {
@@ -110,8 +123,7 @@ public class Dialogue : MonoBehaviour {
 	void girlThenMemory(string response, int n, string memory) {
 		globScr.updateGirlResp (response);
 		Globals.memories [n - 1] = true;
-		//Globals.girlRet = memory;
-		Globals.girlRet = "opening";
+		Globals.girlRet = memory;
 		Application.LoadLevel ("GirlResp");
 	}
 
@@ -119,16 +131,14 @@ public class Dialogue : MonoBehaviour {
 		globScr.updateGirlResp (response);
 		Globals.memories [n - 1] = true;
 		Globals.memRet = "GirlResp";
-		//Application.LoadLevel (memory);
-		Application.LoadLevel ("opening"); // TODO: UNCOMMENT THESE WHEN YOU GET THE ACTUAL MEMORIES
+		Application.LoadLevel (memory);
 	}
 
 	void girlMemGirl (string resp1, int n, string memry, string resp2) {
 		globScr.updateGirlResp2 (resp1, resp2);
 		Globals.memories [n - 1] = true;
 		Globals.memRet = "GirlResp";
-		//Globals.girlRet = memry;
-		Globals.girlRet = "opening";
+		Globals.girlRet = memry;
 		Application.LoadLevel ("GirlResp");
 	}
 
@@ -139,7 +149,7 @@ public class Dialogue : MonoBehaviour {
 	// We're now checking if memories have been visited before these memory functions, since it didn't require refactoring as much code...
 	void memory1 () {
 		Globals.memories [0] = true;
-		Application.LoadLevel ("opening"); 
+		Application.LoadLevel ("memory1"); 
 	}
 
 	void memory3 () { // We've killed this memory, so we just skip back to where we were.

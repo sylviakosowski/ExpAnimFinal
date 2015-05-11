@@ -30,14 +30,17 @@ public class Response : MonoBehaviour {
 		rects.Add (new Rect (cX - (3 * dX), cY + (2 * dY), 1 * dX, 1 * dY)); // Where you will click to continue
 
 		Texture background;
+		Debug.LogFormat ("Anger: {0}", Globals.anger);
 		if (Globals.anger >= 9) {
 			background = (Texture)Resources.Load ("girl_Anger", typeof(Texture));
 		} else if (Globals.anger >= 7) {
 			background = (Texture)Resources.Load ("girl_mildAnger", typeof(Texture));
 		} else if (Globals.anger >= 4) {
 			background = (Texture)Resources.Load ("girl_neut", typeof(Texture));
-		} else {
+		} else if (Globals.anger >= 2) {
 			background = (Texture)Resources.Load ("girl_mildHappy", typeof(Texture));
+		} else {
+			background = (Texture)Resources.Load ("girl_happy", typeof(Texture));
 		}
 		gameObject.GetComponent<Renderer>().material.mainTexture = background;
 
@@ -70,12 +73,12 @@ public class Response : MonoBehaviour {
 			// by going to the memory we clear out the return point so we automatically return to the RTC scene.
 			string ret = Globals.girlRet;
 			Globals.girlRet = "RTC";
-			if (!ret.Equals("RTC")) { // TODO: REMOVE THIS CRAP WHEN YOU ACTUALLY HAVE THE MEMORIES
-				//Application.LoadLevel (ret);
+			Application.LoadLevel (ret);
+			/*if (!ret.Equals("RTC")) { // TODO: REMOVE THIS CRAP WHEN YOU ACTUALLY HAVE THE MEMORIES
 				Application.LoadLevel ("opening");
 			} else {
 				Application.LoadLevel ("RTC");
-			}
+			}*/
 		}
 	}
 

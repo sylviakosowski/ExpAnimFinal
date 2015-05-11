@@ -29,13 +29,27 @@ public class Response : MonoBehaviour {
 		rects.Add (new Rect (cX - (4 * dX), cY - (4 * dY), 3 * dX, 5 * dY)); // Where the girl will talk
 		rects.Add (new Rect (cX - (3 * dX), cY + (2 * dY), 1 * dX, 1 * dY)); // Where you will click to continue
 
+		Texture background;
+		if (Globals.anger >= 9) {
+			background = (Texture)Resources.Load ("girl_Anger", typeof(Texture));
+		} else if (Globals.anger >= 7) {
+			background = (Texture)Resources.Load ("girl_mildAnger", typeof(Texture));
+		} else if (Globals.anger >= 4) {
+			background = (Texture)Resources.Load ("girl_neut", typeof(Texture));
+		} else {
+			background = (Texture)Resources.Load ("girl_mildHappy", typeof(Texture));
+		}
+		gameObject.GetComponent<Renderer>().material.mainTexture = background;
+
 	}
 
 	void OnGUI () {
 		GUI.skin.button.wordWrap = true;
 
 		GUI.backgroundColor = Color.clear;
-		GUI.contentColor = Color.black;
+		GUI.skin.box.normal.textColor = Color.black;
+		GUI.skin.button.normal.textColor = Color.black;
+		GUI.skin.button.hover.textColor = Color.gray;
 
 		GUI.skin.box.wordWrap = true;
 		GUI.skin.box.alignment = TextAnchor.MiddleCenter;

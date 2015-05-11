@@ -15,6 +15,12 @@ public class VideoController : MonoBehaviour {
 	void Update () {
 		Renderer rend = GetComponent<Renderer> ();
 		MovieTexture movie = (MovieTexture)rend.material.mainTexture;
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			movie.Stop();
+			string ret = Globals.memRet;
+			Globals.memRet = "RTC";
+			Application.LoadLevel(ret);
+		}
 		if (!movie.isPlaying) {
 			movie.Stop();
 			string ret = Globals.memRet; // Consume the return location so that it returns to default behavior, just incase.

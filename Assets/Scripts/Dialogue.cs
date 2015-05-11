@@ -86,6 +86,7 @@ public class Dialogue : MonoBehaviour {
 	}
 
 	void angryResponse () {
+		globScr.updateAnger (1);
 		ArrayList curr;
 		if (Globals.anger <= 3) {
 			curr = lowAnger;
@@ -148,7 +149,7 @@ public class Dialogue : MonoBehaviour {
 
 	void memory4 () {
 		Globals.memories [3] = true;
-		Application.LoadLevel ("opening"); 
+		Application.LoadLevel ("memory4"); 
 	}
 
 	void memory6 () { // Also killed this one, so we just skip the video and go straight into the conversations.
@@ -166,7 +167,7 @@ public class Dialogue : MonoBehaviour {
 
 	void memory8 () {
 		Globals.memories [7] = true;
-		Application.LoadLevel ("opening");
+		Application.LoadLevel ("memory8");
 	}
 
 	void memory9 () {
@@ -191,6 +192,7 @@ public class Dialogue : MonoBehaviour {
 	
 	/// <summary>
 	/// Because GUI hover is a broken piece of crap, this is a work around. Sue me.
+	/// TURNS OUT IM A LIAR AND THIS IS UNNECESSARY BUT IM LEAVING IT HERE CAUSE I THOUGHT I WAS CLEVER
 	/// </summary>
 	void HovButton (Rect rect, string text) {
 		if (rect.Contains (Event.current.mousePosition)) {
@@ -875,7 +877,8 @@ public class Dialogue : MonoBehaviour {
 
 		GUI.skin.font = (Font)Resources.Load ("Snake", typeof(Font));
 
-		GUI.contentColor = Color.black;
+		GUI.skin.button.normal.textColor = Color.black;
+		GUI.skin.button.hover.textColor = Color.gray;
 
 		if (convNum == 0) {
 			RTC0 ();

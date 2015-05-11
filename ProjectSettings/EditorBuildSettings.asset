@@ -13,3 +13,13 @@ EditorBuildSettings:
     path: Assets/Scenes/RTC.unity
   - enabled: 1
     path: Assets/Scenes/GirlResp.unity
+  - enabled: 1
+    path: Assets/Scenes/memory4.unity
+  - enabled: 1
+    path: Assets/Scenes/memory7.unity
+  - enabled: 1
+    path: Assets/Scenes/memory8.unity
+  - enabled: 1
+    path: Assets/Scenes/memory9.unity
+  - enabled: 1
+    path: Assets/Scenes/memory10.unity

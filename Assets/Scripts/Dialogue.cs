@@ -28,6 +28,8 @@ public class Dialogue : MonoBehaviour {
 	void Start () {
 		cX = Screen.width / 2;
 		cY = Screen.height / 2;
+		int dY = Screen.height / 10;
+		int dX = Screen.width / 10;
 
 		globObj = GameObject.Find ("GlobalObj");
 		globScr = globObj.GetComponent<Globals> ();
@@ -36,35 +38,35 @@ public class Dialogue : MonoBehaviour {
 		convStage = Globals.convoStage;
 
 		rects = new ArrayList ();
-		rects.Add (new Rect (cX - 150, cY + 10, 300, 60));
-		rects.Add (new Rect (cX - 150, cY + 70, 300, 60));
-		rects.Add (new Rect (cX - 150, cY + 130, 300, 60));
-		rects.Add (new Rect (cX - 150, cY + 190, 300, 60));
+		rects.Add (new Rect (cX + dX, cY - (4 * dY), 3 * dX, 2*dY));
+		rects.Add (new Rect (cX + dX, cY - (2 * dY), 3 * dX, 2*dY));
+		rects.Add (new Rect (cX + dX, cY + (0 * dY), 3 * dX, 2*dY));
+		rects.Add (new Rect (cX + dX, cY + (2 * dY), 3 * dX, 2*dY));
 
-		lowAnger = new ArrayList ();
+		lowAnger = new ArrayList (5);
 		lowAnger.Add ("We’ve already discussed this.");
 		lowAnger.Add ("Why are you bringing that up again?");
 		lowAnger.Add ("I don’t see why you keep bringing that up.");
 		lowAnger.Add ("I don’t want to hurt you but if you don’t have anything new to say please just sign the papers.");
 		lowAnger.Add ("Please stop bringing that up and sign the papers.");
 
-		medAnger = new ArrayList ();
-		medAnger.Add ("I need you to let go of this marriage");
+		medAnger = new ArrayList (9);
+		medAnger.Add ("I need you to let go of this marriage.");
 		medAnger.Add ("I’m too tired to discuss this again.");
-		medAnger.Add ("You’re like a broken record");
-		medAnger.Add ("You’re making me exhausted, looping back on yourself all the time");
+		medAnger.Add ("You’re like a broken record.");
+		medAnger.Add ("You’re making me exhausted, looping back on yourself all the time.");
 		medAnger.Add ("Just sign the papers.");
 		medAnger.Add ("You’re being immature. Sign the papers.");
 		medAnger.Add ("You just don’t know when to give up do you.");
 		medAnger.Add ("You’re just in denial at this point.");
 		medAnger.Add ("Please just accept what is happening and sign.");
 
-		highAnger = new ArrayList ();
+		highAnger = new ArrayList (5);
 		highAnger.Add ("Goddamnit, if you have no new point to make just sign the papers.");
 		highAnger.Add ("I’ll wait here all day if I have to, but goddamnit I’m not leaving until you sign.");
 		highAnger.Add ("Do I have to hold your hand and make you sign?");
-		highAnger.Add ("Jesus Christ");
-		highAnger.Add ("Just sign the fucking papers");
+		highAnger.Add ("Jesus Christ!");
+		highAnger.Add ("Just sign the fucking papers!");
 
 		Debug.LogFormat ("Conversation: {0}", convNum);
 	}
@@ -92,7 +94,8 @@ public class Dialogue : MonoBehaviour {
 		} else {
 			curr = medAnger;
 		}
-		girlTalk ((string)curr [Random.Range (0, curr.Capacity)]);
+		int idx = Mathf.FloorToInt (Random.Range (0, curr.Count));
+		girlTalk ((string)curr [idx]);
 
 	}
 
@@ -158,7 +161,7 @@ public class Dialogue : MonoBehaviour {
 
 	void memory7 () {
 		Globals.memories [6] = true;
-		Application.LoadLevel ("opening"); 
+		Application.LoadLevel ("memory7"); 
 	}
 
 	void memory8 () {
@@ -168,7 +171,7 @@ public class Dialogue : MonoBehaviour {
 
 	void memory9 () {
 		Globals.memories [8] = true;
-		Application.LoadLevel ("opening"); 
+		Application.LoadLevel ("memory9"); 
 	}
 	
 	void memory10 () {
@@ -178,11 +181,24 @@ public class Dialogue : MonoBehaviour {
 		Globals.convoNumber = 0;
 		Globals.convoStage = 1;
 		Globals.memories [9] = true;
-		Application.LoadLevel ("opening"); 
+		Application.LoadLevel ("memory10"); 
 	}
 
 	bool memVisited (int memnumber) {
 		return (bool)Globals.memories [memnumber - 1];
+	}
+
+	
+	/// <summary>
+	/// Because GUI hover is a broken piece of crap, this is a work around. Sue me.
+	/// </summary>
+	void HovButton (Rect rect, string text) {
+		if (rect.Contains (Event.current.mousePosition)) {
+			GUI.skin.button.normal.textColor = Color.cyan;
+		} else {
+			GUI.skin.button.normal.textColor = Color.black;
+		}
+		GUI.Button (rect, text);
 	}
 
 	/// <summary>
@@ -524,11 +540,11 @@ public class Dialogue : MonoBehaviour {
 
 	void RTC10 () {
 		if (convStage == 0) {
-			if (GUI.Button ((Rect)rects [0], "Our marriage can still be saved!")) {
+			if (GUI.Button ((Rect)rects [1], "Our marriage can still be saved!")) {
 				Globals.convoStage = 1;
 				girlTalk ("How?");
 			}
-			if (GUI.Button ((Rect)rects [1], "I guess not. I guess nothing can save it.")) {
+			if (GUI.Button ((Rect)rects [2], "I guess not. I guess nothing can save it.")) {
 				// End
 			}
 		} else if (convStage == 1) {
@@ -548,22 +564,22 @@ public class Dialogue : MonoBehaviour {
 					// End
 				}
 			} else {
-				if (GUI.Button ((Rect)rects [0], "... I don't know.")) {
+				if (GUI.Button ((Rect)rects [1], "... I don't know.")) {
 					globScr.updateAnger (1);
 					Globals.convoStage = 2;
 					girlTalk ("Please. I need answers, or I need a signature.");
 				}
-				if (GUI.Button ((Rect)rects [1], "I guess not. I guess nothing can save it.")) {
+				if (GUI.Button ((Rect)rects [2], "I guess not. I guess nothing can save it.")) {
 					// End
 				}
 			}
 		} else if (convStage == 2) {
-			if (GUI.Button ((Rect)rects [0], "Just give me more time.")) {
+			if (GUI.Button ((Rect)rects [1], "Just give me more time.")) {
 				globScr.updateAnger (1);
 				Globals.convoStage = 1;
 				girlTalk ("I think we've both had enough time. Do you have an solution?");
 			}
-			if (GUI.Button ((Rect)rects [1], "I guess not. I guess nothing can save it.")) {
+			if (GUI.Button ((Rect)rects [2], "I guess not. I guess nothing can save it.")) {
 				// End
 			}
 		}
@@ -605,11 +621,11 @@ public class Dialogue : MonoBehaviour {
 
 	void RTC12 () {
 		if (convStage == 0) {
-			if (GUI.Button ((Rect)rects [0], "It’s that guy who stars in all your productions with you, isn’t it?")) {
+			if (GUI.Button ((Rect)rects [1], "It’s that guy who stars in all your productions with you, isn’t it?")) {
 				Globals.convoNumber = 13;
 				girlTalk ("You’re one to talk, what about the waitress you hired to replace me?");
 			} 
-			if (GUI.Button ((Rect)rects [1], "You know what, I hope you find someone who will make you happy. It's obviously not me.")) {
+			if (GUI.Button ((Rect)rects [2], "You know what, I hope you find someone who will make you happy. It's obviously not me.")) {
 				// End
 			}
 		} 
@@ -697,7 +713,7 @@ public class Dialogue : MonoBehaviour {
 				// End
 			}
 		} else if (convStage == 3) {
-			if (GUI.Button ((Rect)rects [0], "...You’re right. I did hire her to replace you.")) {
+			if (GUI.Button ((Rect)rects [1], "...You’re right. I did hire her to replace you.")) {
 				if(memVisited (4) ){
 					// Angry
 					angryResponse ();
@@ -715,7 +731,7 @@ public class Dialogue : MonoBehaviour {
 					}
 				}
 			} 
-			if (GUI.Button ((Rect)rects [1], "I can’t believe you don’t trust me. I want out.")) {
+			if (GUI.Button ((Rect)rects [2], "I can’t believe you don’t trust me. I want out.")) {
 				// End
 			}
 		}
@@ -723,12 +739,12 @@ public class Dialogue : MonoBehaviour {
 
 	void RTC15 () {
 		if (convStage == 0) {
-			if (GUI.Button ((Rect)rects [0], "I'm sorry. I wanted to but I didn't know how.")) {
+			if (GUI.Button ((Rect)rects [1], "I'm sorry. I wanted to but I didn't know how.")) {
 				Globals.convoStage = 1;
 				globScr.updateAnger (-1);
 				girlTalk ("That's not it. We have no trust in this relationship. That's why I never tell you anything anymore.");
 			}
-			if (GUI.Button ((Rect)rects [1], "Maybe I would have, but you're never around anymore.")) {
+			if (GUI.Button ((Rect)rects [2], "Maybe I would have, but you're never around anymore.")) {
 				Globals.convoStage = 1; 
 				globScr.updateAnger (1);
 				girlTalk ("That's not it. We have no trust in this relationship. That's why I never tell you anything anymore.");
@@ -840,17 +856,26 @@ public class Dialogue : MonoBehaviour {
 	void RTC19 () {
 		if (convStage == 0) {
 			// We don't need to check this one because we only get here from the very first conversation and can't have visited memory 9 yet.
-			if (GUI.Button ((Rect)rects [0], "All I know is you've stopped confiding in me. And I miss you.")) {
+			if (GUI.Button ((Rect)rects [1], "All I know is you've stopped confiding in me. And I miss you.")) {
 				Globals.convoNumber = 17;
 				memory9 ();
+			}
+			if (GUI.Button ((Rect)rects [2], "I want to make this work, but this is a two way street. If that's your attitude I think this is for the best.")) {
+				// End
 			}
 		}
 	}
 
 	void OnGUI () {
-	//void Update () {
-		// Make things wrap nicely.
+		// Start defining the style.
 		GUI.skin.button.wordWrap = true;
+		GUI.skin.button.fontSize = 26;
+
+		GUI.backgroundColor = Color.clear;
+
+		GUI.skin.font = (Font)Resources.Load ("Snake", typeof(Font));
+
+		GUI.contentColor = Color.black;
 
 		if (convNum == 0) {
 			RTC0 ();

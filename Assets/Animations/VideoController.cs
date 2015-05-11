@@ -8,6 +8,7 @@ public class VideoController : MonoBehaviour {
 		Renderer rend = GetComponent<Renderer> ();
 		MovieTexture movie = (MovieTexture)rend.material.mainTexture;
 		movie.Play ();
+		GetComponent<AudioSource>().Play ();
 	}
 	
 	// Update is called once per frame

@@ -18,20 +18,31 @@ public class Response : MonoBehaviour {
 	void Start () {
 		cX = Screen.width / 2;
 		cY = Screen.height / 2;
+		int dY = Screen.height / 10;
+		int dX = Screen.width / 10;
 		
 		globObj = GameObject.Find ("GlobalObj");
 		globScr = globObj.GetComponent<Globals> ();
 		resp = globScr.getGirlResp ();
 		
 		rects = new ArrayList ();
-		rects.Add (new Rect (cX - 400, cY - 60, 300, 120)); // Where the girl will talk
-		rects.Add (new Rect (cX - 150, cY + 70, 300, 60)); // Where you will click to continue
+		rects.Add (new Rect (cX - (4 * dX), cY - (4 * dY), 3 * dX, 5 * dY)); // Where the girl will talk
+		rects.Add (new Rect (cX - (3 * dX), cY + (2 * dY), 1 * dX, 1 * dY)); // Where you will click to continue
 
 	}
 
 	void OnGUI () {
 		GUI.skin.button.wordWrap = true;
+
+		GUI.backgroundColor = Color.clear;
+		GUI.contentColor = Color.black;
+
 		GUI.skin.box.wordWrap = true;
+		GUI.skin.box.alignment = TextAnchor.MiddleCenter;
+
+		GUI.skin.box.fontSize = 32;
+		GUI.skin.button.fontSize = 24;
+
 		GUI.Box ((Rect)rects [0], resp);
 		if (GUI.Button ((Rect)rects [1], "[Continue]")) {
 			// Update the girl's response to be the new one. Clear the second one just in case.

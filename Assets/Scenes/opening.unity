@@ -116,7 +116,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dd8cac0bed91e4e1aa788fa1bd496972, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ed8237bb1a7e84ff0ae036243ddb3aba, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -186,7 +186,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: fc880f4e162c94839b4eb6ae84d8515f, type: 2}
+  - {fileID: 2100000, guid: 4ec57e9cac3b54174a15f9c5fdcd921a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
